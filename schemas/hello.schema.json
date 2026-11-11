@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.zelux.example/protocol/1.1/hello.schema.json",
+  "title": "ZELUX Agent Hello",
+  "type": "object",
+  "required": ["t", "version", "caps", "versions", "protocol", "capabilities"],
+  "properties": {
+    "t": {"const": "hello"},
+    "duck": {"type": "object"},
+    "version": {"type": "string"},
+    "caps": {"type": "object"},
+    "device": {
+      "type": "object",
+      "required": ["id", "model"],
+      "properties": {
+        "id": {"type": "string"},
+        "model": {"type": "string"},
+        "hw_revision": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "versions": {
+      "type": "object",
+      "required": ["agent", "protocol", "driver_api"],
+      "properties": {
+        "agent": {"type": "string"},
+        "protocol": {"type": "string"},
+        "driver_api": {"type": "string"},
+        "motion_protocol": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "protocol": {
+      "type": "object",
+      "required": ["selected", "supported"],
+      "properties": {
+        "selected": {"type": "string"},
+        "supported": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": {"$ref": "#/$defs/capability"}
+    }
+  },
+  "$defs": {
+    "capability": {
+      "type": "object",
+      "required": ["driver", "driver_version", "api", "health"],
+      "properties": {
+        "driver": {"type": "string"},
+        "driver_version": {"type": "string"},
+        "api": {"type": "string"},
+        "health": {"enum": ["ready", "unavailable", "error", "unknown"]}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
+

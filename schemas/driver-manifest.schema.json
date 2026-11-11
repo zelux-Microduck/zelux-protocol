@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.zelux.example/driver-manifest/v1/schema.json",
+  "title": "ZELUX Driver Manifest",
+  "type": "object",
+  "required": ["schema", "id", "name", "version", "device_class", "driver_api", "agent", "entrypoint", "artifact", "signature"],
+  "properties": {
+    "schema": {"const": "zelux.driver-manifest/v1"},
+    "id": {"type": "string", "pattern": "^zelux\\.[a-z0-9_-]+\\.[a-z0-9_.-]+$"},
+    "name": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:[-+].*)?$"},
+    "device_class": {"enum": ["servo", "tof", "camera", "fan", "imu"]},
+    "driver_api": {"type": "string"},
+    "agent": {"type": "string"},
+    "platforms": {"type": "array", "items": {"type": "object"}},
+    "entrypoint": {"type": "string", "minLength": 3},
+    "match": {"type": "array", "items": {"type": "object"}},
+    "permissions": {"type": "object"},
+    "firmware": {"type": "object"},
+    "artifact": {
+      "type": "object",
+      "required": ["file", "sha256"],
+      "properties": {
+        "file": {"type": "string"},
+        "sha256": {"type": "string", "pattern": "^[a-fA-F0-9]{64}$"}
+      },
+      "additionalProperties": false
+    },
+    "signature": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": true
+}
+
