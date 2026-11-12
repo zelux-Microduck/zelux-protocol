@@ -1,6 +1,6 @@
-# ZELUX 公共协议基线
+# ZELUX Protocol
 
-本目录是独立 `zelux-protocol` 仓库建立前的过渡契约源，当前版本为 `1.1.0`。
+Studio、Device Agent、驱动包和固件包之间的公共契约，当前版本见 `VERSION`。
 
 - `schemas/hello.schema.json`：服务端握手；
 - `schemas/driver-manifest.schema.json`：驱动包清单；
@@ -9,7 +9,8 @@
 - Python 协商实现位于 `software/zeluxd/protocol.py`。
 
 规则：新增字段必须可选；删除、改名、改变类型或单位必须提升协议 Major。
-完成独立拆仓后，本目录迁移至 `zelux-protocol`，Studio 和 Agent 改为依赖其发布产物。
+提交前运行：`python tools/validate.py`。正式发布将从本仓库生成 TypeScript 和
+Python SDK；其他仓库不得维护同名字段的另一套手写定义。
 
 `.zdp` 是 ZIP 容器，根目录必须包含 `manifest.json` 以及清单声明的单个驱动产物。
 正式设备只接受由 `drivers/trusted_keys/<key_id>.pem` 中 Ed25519 公钥验证通过的包；
