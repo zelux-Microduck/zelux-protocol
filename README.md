@@ -5,6 +5,7 @@ Studio、Device Agent、驱动包和固件包之间的公共契约，当前版�
 - `schemas/hello.schema.json`：服务端握手；
 - `schemas/driver-manifest.schema.json`：驱动包清单；
 - `schemas/firmware-manifest.schema.json`：外设固件包清单；
+- `schemas/robotd-imu.schema.json`：robotd 与设备管理层之间的 IMU 数据契约；
 - `examples/`：合法消息示例；
 - Python 协商实现位于 `software/zeluxd/protocol.py`。
 

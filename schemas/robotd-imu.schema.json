@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.zelux.example/robotd-imu/v1/schema.json",
+  "title": "Zelux robotd IMU sample",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "sequence", "monotonic_ns", "gyro_rad_s", "gravity", "quaternion_wxyz", "ready", "stale", "driver"],
+  "properties": {
+    "schema": {"const": "zelux.robotd-imu/v1"},
+    "sequence": {"type": "integer", "minimum": 0},
+    "monotonic_ns": {"type": "integer", "minimum": 0},
+    "gyro_rad_s": {"$ref": "#/$defs/vec3"},
+    "gravity": {"$ref": "#/$defs/vec3"},
+    "quaternion_wxyz": {
+      "type": "array",
+      "items": {"type": "number"},
+      "minItems": 4,
+      "maxItems": 4
+    },
+    "ready": {"type": "boolean"},
+    "stale": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total", "consecutive"],
+      "properties": {
+        "total": {"type": "integer", "minimum": 0},
+        "consecutive": {"type": "integer", "minimum": 0}
+      }
+    },
+    "driver": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "model", "transport", "api"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "minLength": 1},
+        "model": {"type": "string", "minLength": 1},
+        "transport": {"enum": ["motor-bus", "i2c", "spi", "ipc", "simulation"]},
+        "api": {"const": "zelux.imu-source/v1"}
+      }
+    },
+    "error": {"type": ["string", "null"]}
+  },
+  "$defs": {
+    "vec3": {
+      "type": "array",
+      "items": {"type": "number"},
+      "minItems": 3,
+      "maxItems": 3
+    }
+  }
+}

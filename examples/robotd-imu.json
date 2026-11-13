@@ -1,0 +1,18 @@
+{
+  "schema": "zelux.robotd-imu/v1",
+  "sequence": 1842,
+  "monotonic_ns": 918273645000,
+  "gyro_rad_s": [0.01, -0.02, 0.0],
+  "gravity": [0.0, 0.0, -1.0],
+  "quaternion_wxyz": [1.0, 0.0, 0.0, 0.0],
+  "ready": true,
+  "stale": {"total": 3, "consecutive": 0},
+  "driver": {
+    "id": "zelux.imu.lsm6dsv16x-dxl2",
+    "version": "1.0.0",
+    "model": "LSM6DSV16X",
+    "transport": "motor-bus",
+    "api": "zelux.imu-source/v1"
+  },
+  "error": null
+}
