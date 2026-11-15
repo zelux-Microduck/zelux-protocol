@@ -1,5 +1,6 @@
 {
   "schema": "zelux.robotd-imu/v1",
+  "publisher_id": "e9b8f448a5a44ca0bbbf555709b51f60",
   "sequence": 1842,
   "monotonic_ns": 918273645000,
   "gyro_rad_s": [0.01, -0.02, 0.0],

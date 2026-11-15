@@ -7,6 +7,7 @@
   "required": ["schema", "sequence", "monotonic_ns", "gyro_rad_s", "gravity", "quaternion_wxyz", "ready", "stale", "driver"],
   "properties": {
     "schema": {"const": "zelux.robotd-imu/v1"},
+    "publisher_id": {"type": "string", "minLength": 1},
     "sequence": {"type": "integer", "minimum": 0},
     "monotonic_ns": {"type": "integer", "minimum": 0},
     "gyro_rad_s": {"$ref": "#/$defs/vec3"},
