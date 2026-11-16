@@ -1,0 +1,106 @@
+{
+  "schema": "zelux.studio-imu-management/v1",
+  "available": true,
+  "catalog": {
+    "schema": "zelux.robotd-imu-management/v1",
+    "api_version": 32,
+    "config": {
+      "protocol": "feetech-sts",
+      "imu": {
+        "source": "imu-dxl",
+        "socket": "/run/zelux/robotd-imu.sock",
+        "max_age_ms": 100,
+        "model": "qingmu-a1",
+        "mount_wxyz": null,
+        "mount_correction_wxyz": [1, 0, 0, 0]
+      }
+    },
+    "revision": "opaque-example-token",
+    "config_path": "/etc/robot/robotd.toml",
+    "models": [
+      {
+        "id": "qingmu-a1",
+        "supported": true,
+        "compatible": true,
+        "reason": null,
+        "fixed_mount": true,
+        "mount_profile": "qingmu-a1.vertical.v1",
+        "mount_wxyz": [
+          0,
+          0.7071067811865476,
+          0,
+          -0.7071067811865476
+        ],
+        "calibration_supported": true,
+        "sensor_axes": [
+          "down",
+          "right",
+          "back"
+        ],
+        "driver_id": "zelux.imu.imu-dxl",
+        "driver_version": "0.15.0"
+      }
+    ]
+  },
+  "runtime": {
+    "instance_id": "example-process",
+    "source": "imu-dxl",
+    "model": "qingmu-a1",
+    "driver_id": "zelux.imu.imu-dxl",
+    "driver_version": "0.15.0",
+    "mount_profile": "qingmu-a1.vertical.v1",
+    "mount_wxyz": [
+      0,
+      0.7071067811865476,
+      0,
+      -0.7071067811865476
+    ],
+    "revision": "opaque-example-token",
+    "config_path": "/etc/robot/robotd.toml",
+    "simulated": false
+  },
+  "pending_restart": false,
+  "sensor": {
+    "ready": true,
+    "stale_blocks": 0,
+    "consecutive_stale_blocks": 0
+  },
+  "simulated": false,
+  "ready": true,
+  "restart_safe": true,
+  "age_s": 0.1,
+  "error": "",
+  "calibration": "robotd-managed",
+  "mount_calibration": {
+    "status": "applied",
+    "correction_wxyz": [1, 0, 0, 0],
+    "method": "guided-gravity-axes-v1"
+  },
+  "mount_calibration_wizard": {
+    "running": false,
+    "step": 5,
+    "step_key": null,
+    "steps": [
+      {"key": "still", "label": "机体立正", "hint": "保持静止后采集", "done": true, "active": false},
+      {"key": "forward", "label": "前倾", "hint": "保持后采集", "done": true, "active": false},
+      {"key": "back", "label": "后倾", "hint": "保持后采集", "done": true, "active": false},
+      {"key": "left", "label": "左倾", "hint": "保持后采集", "done": true, "active": false},
+      {"key": "right", "label": "右倾", "hint": "保持后采集", "done": true, "active": false}
+    ],
+    "ready": true,
+    "result": {
+      "correction_wxyz": [1, 0, 0, 0],
+      "delta_correction_wxyz": [1, 0, 0, 0],
+      "checks": [
+        {"step": "forward", "error_deg": 0, "ok": true},
+        {"step": "back", "error_deg": 0, "ok": true},
+        {"step": "left", "error_deg": 0, "ok": true},
+        {"step": "right", "error_deg": 0, "ok": true}
+      ],
+      "max_axis_error_deg": 0,
+      "method": "guided-gravity-axes-v1"
+    },
+    "why": ""
+  }
+}
+

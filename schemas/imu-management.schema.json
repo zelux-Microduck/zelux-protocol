@@ -1,0 +1,413 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Studio IMU management state",
+  "type": "object",
+  "required": [
+    "schema",
+    "available",
+    "catalog",
+    "runtime",
+    "pending_restart",
+    "ready",
+    "restart_safe",
+    "calibration",
+    "mount_calibration"
+  ],
+  "properties": {
+    "schema": {
+      "const": "zelux.studio-imu-management/v1"
+    },
+    "available": {
+      "type": "boolean"
+    },
+    "catalog": {
+      "oneOf": [
+        {
+          "type": "object",
+          "maxProperties": 0
+        },
+        {
+          "$ref": "#/$defs/catalog"
+        }
+      ]
+    },
+    "runtime": {
+      "$ref": "#/$defs/runtime"
+    },
+    "pending_restart": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "sensor": {
+      "type": "object"
+    },
+    "simulated": {
+      "type": "boolean"
+    },
+    "ready": {
+      "type": "boolean"
+    },
+    "restart_safe": {
+      "type": "boolean"
+    },
+    "age_s": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "error": {
+      "type": "string"
+    },
+    "calibration": {
+      "enum": [
+        "agent",
+        "robotd-managed"
+      ]
+    },
+    "mount_calibration": {
+      "$ref": "#/$defs/mountCalibration"
+    },
+    "mount_calibration_wizard": {
+      "$ref": "#/$defs/mountCalibrationWizard"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "imuConfig": {
+      "type": "object",
+      "required": [
+        "source",
+        "socket",
+        "max_age_ms",
+        "mount_correction_wxyz"
+      ],
+      "properties": {
+        "source": {
+          "enum": [
+            "ipc",
+            "embedded",
+            "imu-dxl",
+            "unavailable"
+          ]
+        },
+        "socket": {
+          "type": "string"
+        },
+        "max_age_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "model": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "mount_wxyz": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number"
+          },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "mount_correction_wxyz": {
+          "type": ["array", "null"],
+          "items": {"type": "number"},
+          "minItems": 4,
+          "maxItems": 4
+        }
+      },
+      "additionalProperties": false
+    },
+    "catalog": {
+      "type": "object",
+      "required": [
+        "schema",
+        "api_version",
+        "config",
+        "revision",
+        "models",
+        "config_path"
+      ],
+      "properties": {
+        "schema": {
+          "const": "zelux.robotd-imu-management/v1"
+        },
+        "api_version": {
+          "type": "integer"
+        },
+        "config": {
+          "type": "object",
+          "required": [
+            "protocol",
+            "imu"
+          ],
+          "properties": {
+            "protocol": {
+              "enum": [
+                "dynamixel2",
+                "feetech-sts"
+              ]
+            },
+            "imu": {
+              "$ref": "#/$defs/imuConfig"
+            }
+          },
+          "additionalProperties": false
+        },
+        "revision": {
+          "type": "string"
+        },
+        "config_path": {
+          "type": "string"
+        },
+        "models": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "supported",
+              "compatible",
+              "reason",
+              "fixed_mount",
+              "mount_profile",
+              "mount_wxyz",
+              "calibration_supported",
+              "sensor_axes",
+              "driver_id",
+              "driver_version"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "supported": {
+                "type": "boolean"
+              },
+              "compatible": {
+                "type": "boolean"
+              },
+              "reason": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "fixed_mount": {
+                "const": true
+              },
+              "mount_profile": {
+                "type": "string"
+              },
+              "mount_wxyz": {
+                "type": "array",
+                "items": {
+                  "type": "number"
+                },
+                "minItems": 4,
+                "maxItems": 4
+              },
+              "calibration_supported": {"type": "boolean"},
+              "sensor_axes": {
+                "type": "array",
+                "items": {
+                  "enum": [
+                    "forward",
+                    "back",
+                    "left",
+                    "right",
+                    "up",
+                    "down"
+                  ]
+                },
+                "minItems": 3,
+                "maxItems": 3
+              },
+              "driver_id": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "driver_version": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "runtime": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "instance_id",
+        "source",
+        "model",
+        "driver_id",
+        "driver_version",
+        "mount_profile",
+        "mount_wxyz",
+        "revision",
+        "config_path",
+        "simulated"
+      ],
+      "properties": {
+        "instance_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source": {
+          "enum": [
+            "ipc",
+            "embedded",
+            "imu-dxl",
+            "unavailable"
+          ]
+        },
+        "model": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "driver_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "driver_version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "mount_profile": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "mount_wxyz": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "number"
+          },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "revision": {
+          "type": "string"
+        },
+        "config_path": {
+          "type": "string"
+        },
+        "simulated": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false
+    },
+    "mountCalibration": {
+      "type": "object",
+      "required": ["status", "correction_wxyz", "method"],
+      "properties": {
+        "status": {"enum": ["not_calibrated", "pending_restart", "applied", "unknown"]},
+        "correction_wxyz": {
+          "type": ["array", "null"],
+          "items": {"type": "number"},
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "method": {"type": ["string", "null"]}
+      },
+      "additionalProperties": false
+    },
+    "mountCalibrationWizard": {
+      "type": "object",
+      "required": ["running", "step", "step_key", "steps", "ready", "result", "why"],
+      "properties": {
+        "running": {"type": "boolean"},
+        "step": {"type": "integer", "minimum": 0, "maximum": 5},
+        "step_key": {"type": ["string", "null"]},
+        "steps": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["key", "label", "hint", "done", "active"],
+            "properties": {
+              "key": {"enum": ["still", "forward", "back", "left", "right"]},
+              "label": {"type": "string"},
+              "hint": {"type": "string"},
+              "done": {"type": "boolean"},
+              "active": {"type": "boolean"}
+            },
+            "additionalProperties": false
+          }
+        },
+        "ready": {"type": "boolean"},
+        "result": {
+          "oneOf": [
+            {"type": "null"},
+            {"$ref": "#/$defs/mountCalibrationResult"}
+          ]
+        },
+        "why": {"type": "string"},
+        "enabled": {"type": "boolean"},
+        "mode": {"type": "string"},
+        "params": {"type": "object"}
+      },
+      "additionalProperties": false
+    },
+    "mountCalibrationResult": {
+      "type": "object",
+      "required": ["correction_wxyz", "checks", "max_axis_error_deg", "method"],
+      "properties": {
+        "correction_wxyz": {
+          "type": "array", "items": {"type": "number"}, "minItems": 4, "maxItems": 4
+        },
+        "delta_correction_wxyz": {
+          "type": "array", "items": {"type": "number"}, "minItems": 4, "maxItems": 4
+        },
+        "checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["step", "error_deg", "ok"],
+            "properties": {
+              "step": {"enum": ["forward", "back", "left", "right"]},
+              "error_deg": {"type": "number", "minimum": 0},
+              "ok": {"type": "boolean"}
+            },
+            "additionalProperties": false
+          },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "max_axis_error_deg": {"type": "number", "minimum": 0},
+        "method": {"const": "guided-gravity-axes-v1"}
+      },
+      "additionalProperties": false
+    }
+  }
+}

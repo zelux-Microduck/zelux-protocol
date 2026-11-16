@@ -1,0 +1,16 @@
+{
+  "schema": "zelux.studio-imu-management/v1",
+  "available": false,
+  "catalog": {},
+  "runtime": null,
+  "pending_restart": null,
+  "sensor": {},
+  "simulated": false,
+  "ready": false,
+  "restart_safe": false,
+  "age_s": null,
+  "error": "robotd unavailable",
+  "calibration": "robotd-managed",
+  "mount_calibration": {"status": "unknown", "correction_wxyz": null, "method": null}
+}
+

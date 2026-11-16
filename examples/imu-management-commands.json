@@ -1,0 +1,46 @@
+{
+  "description": "Existing authenticated Agent envelope; expected is opaque catalog.revision.",
+  "commands": [
+    {
+      "name": "imu.management_status",
+      "args": {}
+    },
+    {
+      "name": "imu.model_select",
+      "args": {
+        "model": "qingmu-a1",
+        "expected": "<catalog.revision>"
+      }
+    },
+    {
+      "name": "imu.model_restart",
+      "args": {
+        "expected": "<catalog.revision>",
+        "confirm": true,
+        "mechanically_supported": true
+      }
+    },
+    {
+      "name": "imu.op",
+      "args": {
+        "op": "mount_calibration_start",
+        "confirm": true,
+        "mechanically_supported": true
+      }
+    },
+    {"name": "imu.op", "args": {"op": "mount_calibration_capture"}},
+    {"name": "imu.op", "args": {"op": "mount_calibration_solve"}},
+    {
+      "name": "imu.op",
+      "args": {"op": "mount_calibration_commit", "expected": "<catalog.revision>"}
+    }
+  ],
+  "rules": [
+    "save does not restart",
+    "B1 unverified: refused",
+    "restart checks robot.safeToRestart; physical confirmation mandatory",
+    "The guided multi-pose calibration derives the IMU-to-body rotation",
+    "No serial access from Agent or Studio"
+  ]
+}
+
