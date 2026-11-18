@@ -1,0 +1,16 @@
+{
+  "schema": "zelux.fan-inventory/v1",
+  "mode": "auto",
+  "default_pct": 60,
+  "curve": [[58, 70], [64, 85], [70, 100]],
+  "instances": [{
+    "id": "cooling-main",
+    "name": "主散热风扇",
+    "driver_id": "zelux.fan.radxa-pwm",
+    "enabled": true,
+    "pwm": {"chip": 3, "channel": 0},
+    "period_ns": 40000,
+    "tach_gpio": 150,
+    "pulses_per_rev": 2
+  }]
+}

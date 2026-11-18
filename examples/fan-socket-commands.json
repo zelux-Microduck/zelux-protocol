@@ -1,0 +1,118 @@
+{
+  "description": "Each line is one JSON message on the local Unix stream socket. Device identity uses stable instance_id, never an array index.",
+  "socket": "/run/zelux/fan.sock",
+  "api_version": 1,
+  "commands": [
+    {
+      "api_version": 1,
+      "op": "ping"
+    },
+    {
+      "api_version": 1,
+      "op": "status"
+    },
+    {
+      "api_version": 1,
+      "op": "get",
+      "instance_id": "cooling-main"
+    },
+    {
+      "api_version": 1,
+      "op": "set",
+      "instance_id": "cooling-main",
+      "pct": 70,
+      "hold_s": 30
+    },
+    {
+      "api_version": 1,
+      "op": "auto"
+    },
+    {
+      "api_version": 1,
+      "op": "curve",
+      "points": [
+        [
+          58,
+          70
+        ],
+        [
+          64,
+          85
+        ],
+        [
+          70,
+          100
+        ]
+      ]
+    },
+    {
+      "api_version": 1,
+      "op": "selftest",
+      "instance_id": "cooling-main"
+    },
+    {
+      "api_version": 1,
+      "op": "validate",
+      "inventory": {
+        "schema": "zelux.fan-inventory/v1",
+        "mode": "auto",
+        "default_pct": 60,
+        "curve": [],
+        "instances": []
+      }
+    },
+    {
+      "api_version": 1,
+      "op": "create",
+      "instance": {
+        "id": "cooling-main",
+        "name": "主散热风扇",
+        "driver_id": "zelux.fan.radxa-pwm",
+        "enabled": true,
+        "pwm": {
+          "chip": 3,
+          "channel": 0
+        },
+        "period_ns": 40000
+      }
+    },
+    {
+      "api_version": 1,
+      "op": "update",
+      "instance_id": "cooling-main",
+      "instance": {
+        "id": "cooling-main",
+        "name": "主散热风扇",
+        "driver_id": "zelux.fan.radxa-pwm",
+        "enabled": true,
+        "pwm": {
+          "chip": 3,
+          "channel": 0
+        },
+        "period_ns": 40000
+      }
+    },
+    {
+      "api_version": 1,
+      "op": "disable",
+      "instance_id": "cooling-main"
+    },
+    {
+      "api_version": 1,
+      "op": "enable",
+      "instance_id": "cooling-main"
+    },
+    {
+      "api_version": 1,
+      "op": "delete",
+      "instance_id": "cooling-main",
+      "confirm": true
+    }
+  ],
+  "response_error": {
+    "api_version": 1,
+    "ok": false,
+    "code": "resource_busy",
+    "error": "PWM resource is already claimed"
+  }
+}

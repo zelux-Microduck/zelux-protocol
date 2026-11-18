@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.zelux.example/fan-inventory/v1/schema.json",
+  "title": "ZELUX Fan Inventory",
+  "type": "object",
+  "required": ["schema", "mode", "default_pct", "curve", "instances"],
+  "properties": {
+    "schema": {"const": "zelux.fan-inventory/v1"},
+    "mode": {"enum": ["auto", "manual"]},
+    "default_pct": {"type": "integer", "minimum": 0, "maximum": 100},
+    "curve": {"type": "array", "items": {"type": "array", "prefixItems": [{"type": "number", "minimum": -10, "maximum": 120}, {"type": "integer", "minimum": 0, "maximum": 100}], "minItems": 2, "maxItems": 2}},
+    "instances": {"type": "array", "items": {"$ref": "#/$defs/instance"}}
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "instance": {
+      "type": "object",
+      "required": ["id", "name", "driver_id", "enabled", "pwm", "period_ns"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,63}$"},
+        "name": {"type": "string", "minLength": 1, "maxLength": 64},
+        "driver_id": {"type": "string", "pattern": "^zelux\\.fan\\.[a-z0-9_.-]+$"},
+        "enabled": {"type": "boolean"},
+        "pwm": {"type": "object", "required": ["chip", "channel"], "properties": {"chip": {"type": "integer", "minimum": 0, "maximum": 255}, "channel": {"type": "integer", "minimum": 0, "maximum": 255}}, "additionalProperties": false},
+        "period_ns": {"type": "integer", "minimum": 1000, "maximum": 10000000},
+        "tach_gpio": {"type": ["integer", "null"], "minimum": 0, "maximum": 65535},
+        "pulses_per_rev": {"type": "integer", "minimum": 1, "maximum": 16}
+      },
+      "additionalProperties": false
+    }
+  }
+}

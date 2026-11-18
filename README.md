@@ -7,6 +7,8 @@ Studio、Device Agent、驱动包和固件包之间的公共契约，当前版�
 - `schemas/firmware-manifest.schema.json`：外设固件包清单；
 - `schemas/robotd-imu.schema.json`：robotd 与设备管理层之间的 IMU 数据契约；
 - `schemas/imu-management.schema.json`：Studio IMU 管理状态；命令见 `examples/imu-management-commands.json`。型号目录来自 robotctl，客户端不复制轴向定义；
+- `schemas/fan-inventory.schema.json`：风扇实例清单；单/多风扇由 `instances` 数组表达，同一型号通过 `driver_id` 复用；
+- `schemas/fan-socket.schema.json`：Device Agent 与 root 风扇服务的版本化 JSON 行协议；示例见 `examples/fan-socket-commands.json`；
 - `examples/`：合法消息示例；
 - Python 协商实现位于 `software/zeluxd/protocol.py`。
 
@@ -22,4 +24,4 @@ Python SDK；其他仓库不得维护同名字段的另一套手写定义。
 暂存和执行升级前置检查；在具体驱动实现 Bootloader、校验、恢复和回滚接口之前，
 `write_enabled` 始终为 `false`。
 
-IMU 型号管理契约新增于 1.3.0；1.4.0 对齐总线 IMU 多姿态机体对齐标定的交互语义。严格 Schema 验证使用 python -m pip install -r requirements-dev.txt 后执行 python tools/validate.py --schemas。基础无依赖校验仍可执行。型号目录/标称安装规则由 robotd 参数层提供，禁止在 Studio/Agent 维护另一份型号适配判断；标定输出的完整传感器→机体映射由 robotd 配置和运行身份回读。
+IMU 型号管理契约新增于 1.3.0；1.4.0 对齐总线 IMU 多姿态机体对齐标定的交互语义。风扇实例与 socket 契约新增于 1.5.0。严格 Schema 验证使用 python -m pip install -r requirements-dev.txt 后执行 python tools/validate.py --schemas。基础无依赖校验仍可执行。型号目录/标称安装规则由 robotd 参数层提供，禁止在 Studio/Agent 维护另一份型号适配判断；标定输出的完整传感器→机体映射由 robotd 配置和运行身份回读。
