@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://schemas.zelux.example/fan-pwm-setup/v1/schema.json",
+  "title": "ZELUX Fan PWM Pin Setup Command and State",
+  "description": "Studio to Device Agent contract for allowlisted physical PWM pin preparation. The Agent translates these operations to the root-only setup helper; it never accepts arbitrary paths or commands.",
+  "oneOf": [
+    {"$ref": "#/$defs/request"},
+    {"$ref": "#/$defs/response"}
+  ],
+  "$defs": {
+    "request": {
+      "type": "object",
+      "required": ["module", "op"],
+      "properties": {
+        "module": {"const": "fan"},
+        "op": {"enum": ["pwm_setup_status", "pwm_setup_preview", "pwm_setup_apply", "pwm_setup_rollback"]},
+        "pin_id": {"enum": ["radxa-zero3w-pin21-pwm12-m1", "radxa-zero3w-pin24-pwm13-m1"]},
+        "token": {"type": "string", "maxLength": 128},
+        "confirm": {"type": "boolean"}
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {"if": {"properties": {"op": {"enum": ["pwm_setup_preview", "pwm_setup_apply", "pwm_setup_rollback"]}}}, "then": {"required": ["pin_id"]}},
+        {"if": {"properties": {"op": {"const": "pwm_setup_apply"}}}, "then": {"required": ["pin_id", "token", "confirm"], "properties": {"confirm": {"const": true}}}},
+        {"if": {"properties": {"op": {"const": "pwm_setup_rollback"}}}, "then": {"required": ["pin_id", "confirm"], "properties": {"confirm": {"const": true}}}}
+      ]
+    },
+    "pin": {
+      "type": "object",
+      "required": ["id", "label", "pin", "function", "overlay_available", "configured", "ready", "state", "reason", "pinctrl_active"],
+      "properties": {
+        "id": {"enum": ["radxa-zero3w-pin21-pwm12-m1", "radxa-zero3w-pin24-pwm13-m1"]},
+        "label": {"type": "string"},
+        "pin": {"enum": [21, 24]},
+        "function": {"enum": ["PWM12_M1", "PWM13_M1"]},
+        "overlay_available": {"type": "boolean"},
+        "configured": {"type": "boolean"},
+        "ready": {"type": "boolean"},
+        "state": {"enum": ["unsupported", "config_error", "overlay_missing", "incompatible_base", "overlay_required", "reboot_required", "rollback_reboot_required", "validation_failed", "rollback_failed", "runtime_available"]},
+        "reason": {"type": "string"},
+        "chip": {"type": ["integer", "null"], "minimum": 0, "maximum": 255},
+        "channel": {"type": "integer", "minimum": 0, "maximum": 255},
+        "device": {"type": ["string", "null"]},
+        "pinctrl_active": {"type": "boolean"}
+      },
+      "additionalProperties": true
+    },
+    "response": {
+      "type": "object",
+      "required": ["ok"],
+      "properties": {
+        "ok": {"type": "boolean"},
+        "error": {"type": "string"},
+        "code": {"type": "string"},
+        "pwm_setup": {
+          "type": "object",
+          "required": ["profile", "board", "kernel", "state", "reason", "overlay_supported", "reboot_required", "mapped_pins"],
+          "properties": {
+            "profile": {"type": "string"},
+            "board": {"type": "string"},
+            "kernel": {"type": "string"},
+            "state": {"enum": ["unsupported", "config_error", "overlay_required", "reboot_required", "rollback_reboot_required", "validation_failed", "rollback_failed", "runtime_available", "unavailable"]},
+            "reason": {"type": "string"},
+            "overlay_supported": {"type": "boolean"},
+            "reboot_required": {"type": "boolean"},
+            "mapped_pins": {"type": "array", "items": {"$ref": "#/$defs/pin"}}
+          },
+          "additionalProperties": true
+        },
+        "preview": {"type": "object", "properties": {"state": {"type": "string"}, "pin_id": {"type": "string"}, "overlay_id": {"type": "string"}, "token": {"type": "string"}, "diff": {"type": "string"}, "reboot_required": {"type": "boolean"}}, "additionalProperties": true},
+        "result": {"type": "object", "additionalProperties": true}
+      },
+      "additionalProperties": true
+    }
+  }
+}

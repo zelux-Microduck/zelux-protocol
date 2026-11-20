@@ -3,7 +3,7 @@
 日期：2026-11-20。兼容现有 socket API v1；新增字段可选，旧客户端可忽略，不改变必选字段或单位。
 
 - fanctl 是 PWM/FG、温控、清单持久化的唯一所有者。驱动只访问 socket，Agent 负责转发，Studio 不推测硬件实例。
-- inventory.instances 表示已配置实例，包括禁用项；items 表示活动实例运行读数。实例以稳定字符串 id 寻址，数组位置不是持久身份。
+- inventory.instances 表示已配置实例，包括禁用项；items 表示活动实例运行读数。实例以稳定字符串 id 寻址，数组位置不是持久身份。可选 pwm_pin 保存逻辑物理引脚档案 ID；pwm.chip/channel 仍是服务运行时解析出的 sysfs 位置，不应由 Studio 自行猜测。
 - items 中 rpm 可为 null（未知，不是停转）；rpm_age_ms 为样本年龄毫秒或 null；rpm_fresh 表示样本有效；rpm_reason 解释未采样、无测速或过期。超过 10 秒样本不作为当前 RPM。status/get 不同步测速。
 - 释放结果可携带 missing=true：显式映射资源不存在，无需停止；这不表示 PWM 曾成功输出。真实权限或停止失败仍拒绝操作。
 - 服务繁忙时只读请求可返回 ok=false/code=resource_busy，客户端稍后只读刷新；ping 只表明服务存活，不证明硬件健康。

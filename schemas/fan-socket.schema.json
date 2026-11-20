@@ -9,7 +9,7 @@
       "required": ["api_version", "op"],
       "properties": {
         "api_version": {"const": 1},
-        "op": {"enum": ["ping", "status", "get", "temp", "set", "auto", "curve", "selftest", "validate", "create", "update", "delete", "enable", "disable"]},
+        "op": {"enum": ["ping", "status", "get", "temp", "set", "auto", "curve", "selftest", "validate", "pwm_readiness", "create", "update", "delete", "enable", "disable"]},
         "instance_id": {"type": "string", "minLength": 1, "maxLength": 64},
         "confirm": {"type": "boolean"},
         "instance": {"type": "object", "required": ["id", "name", "driver_id", "enabled", "pwm", "period_ns"]},

@@ -24,7 +24,8 @@
         "pwm": {"type": "object", "required": ["chip", "channel"], "properties": {"chip": {"type": "integer", "minimum": 0, "maximum": 255}, "channel": {"type": "integer", "minimum": 0, "maximum": 255}}, "additionalProperties": false},
         "period_ns": {"type": "integer", "minimum": 1000, "maximum": 10000000},
         "tach_gpio": {"type": ["integer", "null"], "minimum": 0, "maximum": 65535},
-        "pulses_per_rev": {"type": "integer", "minimum": 1, "maximum": 16}
+        "pulses_per_rev": {"type": "integer", "minimum": 1, "maximum": 16},
+        "pwm_pin": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_.-]{0,63}$", "description": "Logical physical-pin profile ID. Optional only for legacy persisted inventories; Studio-managed create/enable/update operations must supply it. Resolved chip/channel remain in pwm."}
       },
       "additionalProperties": false
     }
