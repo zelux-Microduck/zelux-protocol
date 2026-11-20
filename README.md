@@ -25,3 +25,5 @@ Python SDK；其他仓库不得维护同名字段的另一套手写定义。
 `write_enabled` 始终为 `false`。
 
 IMU 型号管理契约新增于 1.3.0；1.4.0 对齐总线 IMU 多姿态机体对齐标定的交互语义。风扇实例与 socket 契约新增于 1.5.0。严格 Schema 验证使用 python -m pip install -r requirements-dev.txt 后执行 python tools/validate.py --schemas。基础无依赖校验仍可执行。型号目录/标称安装规则由 robotd 参数层提供，禁止在 Studio/Agent 维护另一份型号适配判断；标定输出的完整传感器→机体映射由 robotd 配置和运行身份回读。
+
+风扇运行读数的新鲜度、操作结果未知与刷新失败语义见 `docs/fan-runtime-semantics.md`（API v1 向后兼容可选扩展）。
